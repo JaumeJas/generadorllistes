@@ -10,6 +10,9 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.SortedMap;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,29 +21,31 @@ import java.util.regex.Pattern;
  * @author MrSingh
  */
 public class LlegirCvs {
+    TreeSet llistaMateries= new TreeSet();  //guardo les materies ordenades i sense duplicacions
 public static void main(String[] args) {
 		LlegirCvs l = new LlegirCvs();
 		l.llegirCvs();
 
 	}
 	
-	public void llegirCvs() { //el de la _ es el fitxer amb poques dades, el que te un . es el fitxer gran.
+	public void llegirCvs() { 
 		String csvFileToRead = "C:\\Users\\MrSingh\\Documents\\NetBeansProjects\\LlegirCvs\\FitxerPerLlegir\\assig. matriculats.csv";
 		BufferedReader br = null;
 		String linia = "";
 		
-		// "^(\\d+)," -->funciona
-		String splitBy = "^(\\d+),";	
-		// "^(\"[a-zA-Zìíòóñàáèéùú]+\\s?[a-zA-Zìíòóñàáèéùú]+[\\s|,|\\s]+[a-zA-Zìíòóñàáèéùú]+[\\s|,|\\s]*[a-zA-Zìíòóñàáèéùú?]+)" : mostra tot el nom complert amb el , el mig
-		//" ^(\"[a-zA-Zìíòóñàáèéùú]+\\s?[a-zA-Zìíòóñàáèéùú]+[\\s|,|\\s]+[a-zA-Zìíòóñàáèéùú]+[\\s|,|\\s]*[a-zA-Zìíòóñàáèéùú?]+)" : versio 2, seguix mostrant el nom complert.
 		
-		Pattern patro_nomCognom = Pattern.compile("([a-zA-Zìíòóñàáèéùú]+\\s?[a-zA-Zìíòóñàáèéùú]+[\\s|,|\\s]+[a-zA-Zìíòóñàáèéùú]+[\\s|,|\\s]*[a-zA-Zìíòóñàáèéùú?]+)");
+		String splitBy = "^(\\d+),";	
+		
+                //([a-zA-Zìíòóñàáèéùú]+\\s?[a-zA-Zìíòóñàáèéùú]+[\\s|,|\\s]+[a-zA-Zìíòóñàáèéùú]+[\\s|,|\\s]*[a-zA-Zìíòóñàáèéùú?]+)
+		Pattern patro_nomCognom = Pattern.compile("([A-Za-zìíòóñàáèéùú]+\\s?[a-zA-Zìíòóñàáèéùú]+[\\s|?,|\\s]+[a-zA-Zìíòóñàáèéùú]+[\\s|,|\\s]*[a-zA-Zìíòóñàáèéùú?]+)");
 		Pattern patro_Classe = Pattern.compile("([1|2]?Batx[A|B|C]?)");
-		//peta falten els que son per exemple GG, 44
-		Pattern patro_materies = Pattern.compile("\"([1-9|A-Z]{1}[A-Z]{2},?|([A-Z]{2},?|[1-9]{2},?)\"?)+");	//(([\\d*[A-Z]]){3},?)+	([\\d|A-Z[\\d|A-Z]+]{3},?)+
+		Pattern patro_materies = Pattern.compile("\\\"([1-9|A-Z]{1}[A-Z]{2},?|([A-Z]{2},?|[1-9]{2},?)\\\"?)+\\\"");	
 		Matcher matcher_NomCognom= null;
 		Matcher matcher_classe = null;
 		Matcher matcher_materies = null;
+                
+                
+                
 		try {
 			
 			br = new BufferedReader(new FileReader(csvFileToRead));
@@ -55,21 +60,19 @@ public static void main(String[] args) {
 					if (matcher_NomCognom.find()){	//treu el nom
 						if (matcher_classe.find()){	//treu el curs
                                                     
-                                                    
                                                     if (matcher_materies.find()){ //treu tot el conjunt de materies
-                                                     //   System.out.println(matcher_materies.group());
-                                                        
+                                                     //   System.out.println(matcher_materies.group());    
                                                         extreureLlistatMateries(matcher_materies.group()); //extreu el llista de totes les materies
 							System.out.flush();
-							
-							//System.out.println(matcher_NomCognom.group() + " <-> " + matcher_classe.group()+ " <-> "+matcher_materies.group() );
+							System.out.println(matcher_NomCognom.group() + " <-> " + matcher_classe.group()+ " <-> "+matcher_materies.group() );
 							
 							}
 						}
 					}
 				}
-
 			}
+                       // System.out.println(llistaMateries); 
+                
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -83,13 +86,13 @@ public static void main(String[] args) {
 				}
 			}
 		}
-
 		System.out.println("\nFi del fitxer");
 	}
-
 	private void extreureLlistatMateries(String group) {
-		String ss = group;
-		System.out.println(ss);
+                //hauria de retallar la llista de les materies per la ,
+                llistaMateries.add(group);
+		
+		
 		
 	}
     
