@@ -25,7 +25,7 @@ public static void main(String[] args) {
 	}
 	
 	public void llegirCvs() { //el de la _ es el fitxer amb poques dades, el que te un . es el fitxer gran.
-		String csvFileToRead = "assig_matriculats.csv";
+		String csvFileToRead = "C:\\Users\\MrSingh\\Documents\\NetBeansProjects\\LlegirCvs\\FitxerPerLlegir\\assig. matriculats.csv";
 		BufferedReader br = null;
 		String linia = "";
 		
@@ -37,7 +37,7 @@ public static void main(String[] args) {
 		Pattern patro_nomCognom = Pattern.compile("([a-zA-Zìíòóñàáèéùú]+\\s?[a-zA-Zìíòóñàáèéùú]+[\\s|,|\\s]+[a-zA-Zìíòóñàáèéùú]+[\\s|,|\\s]*[a-zA-Zìíòóñàáèéùú?]+)");
 		Pattern patro_Classe = Pattern.compile("([1|2]?Batx[A|B|C]?)");
 		//peta falten els que son per exemple GG, 44
-		Pattern patro_materies = Pattern.compile("([\\d|A-Z[\\d|A-Z]+]{3},?)+");	//(([\\d*[A-Z]]){3},?)+	([\\d|A-Z[\\d|A-Z]+]{3},?)+
+		Pattern patro_materies = Pattern.compile("\"([1-9|A-Z]{1}[A-Z]{2},?|([A-Z]{2},?|[1-9]{2},?)\"?)+");	//(([\\d*[A-Z]]){3},?)+	([\\d|A-Z[\\d|A-Z]+]{3},?)+
 		Matcher matcher_NomCognom= null;
 		Matcher matcher_classe = null;
 		Matcher matcher_materies = null;
@@ -54,12 +54,15 @@ public static void main(String[] args) {
 					matcher_materies = patro_materies.matcher(tLinia[i]);
 					if (matcher_NomCognom.find()){	//treu el nom
 						if (matcher_classe.find()){	//treu el curs
-							if (matcher_materies.find()){ //treu tot el conjunt de materies
-							
-								extreureLlistatMateries(matcher_materies.group()); //extreu el llista de totes les materies
+                                                    
+                                                    
+                                                    if (matcher_materies.find()){ //treu tot el conjunt de materies
+                                                     //   System.out.println(matcher_materies.group());
+                                                        
+                                                        extreureLlistatMateries(matcher_materies.group()); //extreu el llista de totes les materies
 							System.out.flush();
 							
-							System.out.println(matcher_NomCognom.group() + " <-> " + matcher_classe.group()+ " <-> "+matcher_materies.group() );
+							//System.out.println(matcher_NomCognom.group() + " <-> " + matcher_classe.group()+ " <-> "+matcher_materies.group() );
 							
 							}
 						}
@@ -86,7 +89,7 @@ public static void main(String[] args) {
 
 	private void extreureLlistatMateries(String group) {
 		String ss = group;
-		//System.out.println(ss);
+		System.out.println(ss);
 		
 	}
     
