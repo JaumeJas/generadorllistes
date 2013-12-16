@@ -59,7 +59,7 @@ public static void main(String[] args) {
 								extreureLlistatMateries(matcher_materies.group()); //extreu el llista de totes les materies
 							System.out.flush();
 							
-						//	System.out.println(com +" "+matcher_NomCognom.group() + " <-> " + matcher_classe.group()+ " <-> "+matcher_materies.group() );
+							System.out.println(matcher_NomCognom.group() + " <-> " + matcher_classe.group()+ " <-> "+matcher_materies.group() );
 							
 							}
 						}
@@ -86,7 +86,7 @@ public static void main(String[] args) {
 
 	private void extreureLlistatMateries(String group) {
 		String ss = group;
-		System.out.println(ss);
+		//System.out.println(ss);
 		
 	}
     
