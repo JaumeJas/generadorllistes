@@ -4,24 +4,21 @@
 
 package Objectes;
 
-public class Materia {
-   String codimateria;
-   Alumne[] alumne; //Array!!!!!!!
+public class Materia implements Comparable<Materia>{
+   private String codimateria;
+   private Alumne[] alumne; //Array!!!!!!!
 
-    public String getNom() {
-        return codimateria;
+   
+    Materia(String codim, Alumne[] alumnes){
+    	codimateria = codim;
+    	alumne = alumnes;
     }
-
-    public void setNom(String codimateria) {
-        this.codimateria = codimateria;
+    public String getCodi() {
+        return codimateria;
     }
 
     public Alumne[] getAlumne() {
         return alumne;
-    }
-
-    public void setAlumne(Alumne[] alumne) {
-        this.alumne = alumne;
     }
 
     @Override
@@ -29,7 +26,7 @@ public class Materia {
         return "Materia{" + "codimateria=" + codimateria + ", alumne=" + alumne + '}';
     }
     public int compareTo(Materia m) {
-        return m.getNom().compareTo(m.codimateria);
+        return codimateria.compareTo(m.getCodi());
     }
    
 }

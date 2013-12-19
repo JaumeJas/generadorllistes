@@ -23,7 +23,7 @@ import java.util.TreeMap;
 public class LlegirCvs {
 
     //TreeSet llistaMateries = new TreeSet();  //guardo les materies ordenades i sense duplicacions
-    TreeMap<String,List> llistaMateriesAlumnes = new TreeMap<String,List>();
+    TreeMap<String, List> llistaMateriesAlumnes = new TreeMap<String, List>();
 
     public static void main(String[] args) {
         try {
@@ -60,11 +60,10 @@ public class LlegirCvs {
                 }
                 Set set = llistaMateriesAlumnes.entrySet();
                 Iterator i = set.iterator();
-                while (i.hasNext()){
+                while (i.hasNext()) {
                     Map.Entry me = (Map.Entry) i.next();
-                    System.out.println(me.getKey() + " : "+me.getValue());
+                    System.out.println(me.getKey() + " : " + me.getValue());
                 }
-                
 
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -122,11 +121,11 @@ public class LlegirCvs {
         //new ArrayList(alumne)
         if (!alumne.equals("0") || !materia.equals("0")) {
             for (int i = 0; i < materia.length; i++) {
-              /*  if (!llistaMateriesAlumnes.containsKey(materia[i])) { //no existeix la materia, la crea.
-                    llistaMateriesAlumnes.put(materia[i], l.add(alumne));
-                } else {
-                    llistaMateriesAlumnes.put(llistaMateriesAlumnes.get(materia[i]), alumne);
-                }*/
+                /*  if (!llistaMateriesAlumnes.containsKey(materia[i])) { //no existeix la materia, la crea.
+                 llistaMateriesAlumnes.put(materia[i], l.add(alumne));
+                 } else {
+                 llistaMateriesAlumnes.put(llistaMateriesAlumnes.get(materia[i]), alumne);
+                 }*/
 
             }
         }
