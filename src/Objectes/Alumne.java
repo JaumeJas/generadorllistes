@@ -11,7 +11,7 @@ public class Alumne implements Comparable<Alumne> {
     //Al fer XML hem d'ajuntar Congom, Nom
     
     //Constructor principal
-    public void Alumne(String nom, String cognom, String grup){
+    Alumne(String nom, String cognom, String grup){
         this.nom = nom;
         this.cognom = cognom;
         this.grup = grup;
