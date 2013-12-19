@@ -69,7 +69,7 @@ public static void main(String[] args) {
 							}
 						}
 					}
-				}
+			import java.util.Collections;	}
 			}
                        // System.out.println(llistaMateries); 
                 
