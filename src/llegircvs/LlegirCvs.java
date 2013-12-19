@@ -9,12 +9,13 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 /**
  *
@@ -23,7 +24,8 @@ import java.util.TreeMap;
 public class LlegirCvs {
 
     //TreeSet llistaMateries = new TreeSet();  //guardo les materies ordenades i sense duplicacions
-    TreeMap<String, List> llistaMateriesAlumnes = new TreeMap<String, List>();
+    TreeMap<String, SortedSet> llistaMateriesAlumnes = new TreeMap<String, SortedSet>();
+    
 
     public static void main(String[] args) {
         try {
@@ -58,6 +60,7 @@ public class LlegirCvs {
                         System.out.println(llistaMateriesAlumnes);
                     }
                 }
+                //per pantalla
                 Set set = llistaMateriesAlumnes.entrySet();
                 Iterator i = set.iterator();
                 while (i.hasNext()) {
@@ -101,12 +104,12 @@ public class LlegirCvs {
         materia = materia.replace("\"", "");
         tMateries = materia.split(",");
 
-        for (int i = 0; i < tMateries.length; i++) {
+        /*for (int i = 0; i < tMateries.length; i++) {
             ola = ola + " " + tMateries[i];
             //llistaMateries.add(tMateries[i]); //era per afegir el llistat a la interficia
             //System.out.println(tMateries[i]);
 
-        }
+        }*/
         return tMateries; //les materies surten duplicades perque  no es un map,
 
         //escriu
@@ -116,16 +119,20 @@ public class LlegirCvs {
          }*/
     }
 
-    public void crearLlistatMateriesAlumnes(String alumne, String[] materia) { //em dona repetits hauria de utilitzar el treeset
-        List l = new ArrayList();
-        //new ArrayList(alumne)
+    public void crearLlistatMateriesAlumnes(String alumne, String[] materia) { //em dona repetits per aixo hi ha el primer if.
+        //alumne ha de ser un objecte persona, perque els necessitarem mes endevant per el xml.
+        SortedSet<String> llistatAlumnes;
+        
         if (!alumne.equals("0") || !materia.equals("0")) {
             for (int i = 0; i < materia.length; i++) {
-                /*  if (!llistaMateriesAlumnes.containsKey(materia[i])) { //no existeix la materia, la crea.
-                 llistaMateriesAlumnes.put(materia[i], l.add(alumne));
+                  if (!llistaMateriesAlumnes.containsKey(materia[i])) { //no existeix la materia, la crea.
+                      llistatAlumnes = new TreeSet<String>();
+                      llistatAlumnes.add(alumne);
+                      llistaMateriesAlumnes.put(materia[i], llistatAlumnes);
+                    
                  } else {
-                 llistaMateriesAlumnes.put(llistaMateriesAlumnes.get(materia[i]), alumne);
-                 }*/
+                      llistaMateriesAlumnes.get(materia[i]).add(alumne); //recupero els valors de la treemap i faig un add.
+                 }
 
             }
         }
