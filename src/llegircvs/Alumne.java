@@ -2,7 +2,6 @@
 
 //Falta: compareTo i to String
 
-package Objectes;
 
 public class Alumne implements Comparable<Alumne> {
     private String nom;

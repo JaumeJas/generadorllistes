@@ -2,7 +2,7 @@
 //Constructor, podem passar-hi un array, no?
 //Falta: compareTo 
 
-package Objectes;
+
 
 public class Materia implements Comparable<Materia>{
    private String codimateria;
