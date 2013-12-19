@@ -108,7 +108,7 @@ public class LlegirCvs {
             //System.out.println(tMateries[i]);
 
         }
-        return tMateries;
+        return tMateries; //les materies surten duplicades perque  no es un map,
 
         //escriu
         /*Iterator iterator = llistaMateries.iterator();
@@ -122,11 +122,11 @@ public class LlegirCvs {
         //new ArrayList(alumne)
         if (!alumne.equals("0") || !materia.equals("0")) {
             for (int i = 0; i < materia.length; i++) {
-                if (!llistaMateriesAlumnes.containsKey(materia[i])) { //no existeix la materia, la crea.
+              /*  if (!llistaMateriesAlumnes.containsKey(materia[i])) { //no existeix la materia, la crea.
                     llistaMateriesAlumnes.put(materia[i], l.add(alumne));
                 } else {
                     llistaMateriesAlumnes.put(llistaMateriesAlumnes.get(materia[i]), alumne);
-                }
+                }*/
 
             }
         }
