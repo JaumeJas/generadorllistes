@@ -10,6 +10,7 @@ public class TestObjectes {
 
 	public static void main(String[] args) {
 
+                
 		// Array alumnes
 		Alumne[] alumnesArray = { new Alumne("Jaume", "Soler", "2DAM"),
 				new Alumne("Andreu", "Solà", "2DAM"),

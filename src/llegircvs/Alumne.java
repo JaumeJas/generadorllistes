@@ -15,6 +15,10 @@ public class Alumne implements Comparable<Alumne> {
         this.cognom = cognom;
         this.grup = grup;
     }
+    Alumne(String nom, String cognom){
+        this.nom = nom;
+        this.cognom = cognom;
+    }
     
     public String getNom() {
         return nom;

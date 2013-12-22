@@ -9,13 +9,13 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
+
 
 /**
  *
@@ -52,15 +52,19 @@ public class LlegirCvs {
             }
             try {
 
-                while ((linia = br.readLine()) != null) {
+                while ((linia = br.readLine()) != null ) {
+                	if (linia.isEmpty()){	//si la linia es buida,nomes han fet enters,trenqui.
+                		break;
+                	}
                     if (!linia.trim().startsWith("#")) {
                         tLinia = linia.split("\"[A-Za-z,]\""); // elimina el numero+, del començament de la linia; split busca un numero(10,100,1000) seguit de una ,
 
                         crearLlistatMateriesAlumnes(extreureLlistatAlumnes(tLinia[0]), extreureLlistatMateries(tLinia[2]));
-                        System.out.println(llistaMateriesAlumnes);
+                        
                     }
                 }
-                //per pantalla
+                
+                //mostra per pantalla
                 Set set = llistaMateriesAlumnes.entrySet();
                 Iterator i = set.iterator();
                 while (i.hasNext()) {
@@ -85,17 +89,19 @@ public class LlegirCvs {
 
     }
 
-    public String extreureLlistatAlumnes(String alumne) {
-        String[] tAlumnes;
-        alumne = alumne.replace(",", "");
-        tAlumnes = alumne.split("^\\d+\"");
-
-        for (int i = 0; i < tAlumnes.length; i++) {
-            if (!tAlumnes[i].trim().isEmpty()) { //com que guarda espais.
-                return tAlumnes[i];
-            }
-        }
-        return "0";
+    public Alumne extreureLlistatAlumnes(String alumne) { 
+    	String[] tAlumne;
+    	String alumnes;
+    	Alumne alum;
+    	
+    	alumnes = alumne.replaceAll("[0-9]+,\"", "");	
+        tAlumne = alumnes.split(",");
+        
+        alum = new Alumne(tAlumne[0], tAlumne[1]);
+        
+        
+        
+        return alum;
     }
 
     public String[] extreureLlistatMateries(String materia) {
@@ -104,34 +110,24 @@ public class LlegirCvs {
         materia = materia.replace("\"", "");
         tMateries = materia.split(",");
 
-        /*for (int i = 0; i < tMateries.length; i++) {
-            ola = ola + " " + tMateries[i];
-            //llistaMateries.add(tMateries[i]); //era per afegir el llistat a la interficia
-            //System.out.println(tMateries[i]);
-
-        }*/
-        return tMateries; //les materies surten duplicades perque  no es un map,
-
-        //escriu
-        /*Iterator iterator = llistaMateries.iterator();
-         while (iterator.hasNext()){
-         System.out.println(iterator.next() + "<->");
-         }*/
+        return tMateries; 
+        
     }
 
-    public void crearLlistatMateriesAlumnes(String alumne, String[] materia) { //em dona repetits per aixo hi ha el primer if.
-        //alumne ha de ser un objecte persona, perque els necessitarem mes endevant per el xml.
+    public void crearLlistatMateriesAlumnes(Alumne alumne, String[] materia) { //em dona repetits per aixo hi ha el primer if.
+        //alumne es objecte, no string, perque els necessitarem mes endevant per el xml.
+        
         SortedSet<String> llistatAlumnes;
         
         if (!alumne.equals("0") || !materia.equals("0")) {
             for (int i = 0; i < materia.length; i++) {
                   if (!llistaMateriesAlumnes.containsKey(materia[i])) { //no existeix la materia, la crea.
                       llistatAlumnes = new TreeSet<String>();
-                      llistatAlumnes.add(alumne);
+                      llistatAlumnes.add(alumne.getCognom().concat(alumne.getNom()));
                       llistaMateriesAlumnes.put(materia[i], llistatAlumnes);
                     
                  } else {
-                      llistaMateriesAlumnes.get(materia[i]).add(alumne); //recupero els valors de la treemap i faig un add.
+                      llistaMateriesAlumnes.get(materia[i]).add(alumne.getCognom().concat(alumne.getNom())); //recupero els valors de la treemap i faig un add.
                  }
 
             }
