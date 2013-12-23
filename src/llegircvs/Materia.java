@@ -1,3 +1,6 @@
+
+import llegircvs.Alumne;
+
 //CompareTo codi_materia
 //Constructor, podem passar-hi un array, no?
 //Falta: compareTo 

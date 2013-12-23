@@ -1,9 +1,10 @@
+package llegircvs;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class TestObjectes {
-	// Creem objecte Alumne OK
+	// Creem objecte Alumnes OK
 	// Crear objecte materia OK
 	// Passar-hi Alumnes OK
 	// ORDENAR: Alumnes OK Assignatures OK

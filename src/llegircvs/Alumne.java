@@ -1,3 +1,5 @@
+package llegircvs;
+
 //S'ha de fer el compareTo per a ordenar-los:
 
 //Falta: compareTo i to String
@@ -39,8 +41,9 @@ public class Alumne implements Comparable<Alumne> {
         return "Alumne{" + "nom=" + nom + ", cognom=" + cognom + ", grup=" + grup + '}';
     }
 
+    
     @Override
-    public int compareTo(Alumne t) {
+    public int compareTo(Alumne t){
         //Primer per cognom i despés per nom
         if (cognom.compareTo(t.getCognom()) == 0) {
                 if(nom.compareTo(t.getNom()) == 0){
@@ -48,5 +51,16 @@ public class Alumne implements Comparable<Alumne> {
                 }else return nom.compareTo(t.getNom());
         }else return cognom.compareTo(t.getCognom());
     }
+    
+    
+    /*public int comparAlumnesumne (Alumne t) {
+        //Primer per cognom i despés per nom
+        if (cognom.compareTo(t.getCognom()) == 0) {
+                if(nom.compareTo(t.getNom()) == 0){
+                    return 0;
+                }else return nom.compareTo(t.getNom());
+        }else return cognom.compareTo(t.getCognom());
+    }*/
 }
+
 
