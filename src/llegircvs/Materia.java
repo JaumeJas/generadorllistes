@@ -1,4 +1,4 @@
-
+package llegircvs;
 import llegircvs.Alumne;
 
 //CompareTo codi_materia
