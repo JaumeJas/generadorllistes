@@ -1,20 +1,19 @@
 package gui;
 
 import java.io.File;
+import java.util.Arrays;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import llegircvs.Intermediari;
+import java.util.List;
 import llegircvs.LlegirCvs;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.*;
+import llegircvs.CrearXmlJDom;
 
 public class F_Gui extends javax.swing.JFrame {
 
-    DefaultListModel llista = new DefaultListModel();
+    private DefaultListModel llistatMateries = new DefaultListModel();
+    private List materiesSeleccionades = null;
 
     public F_Gui() {
         initComponents();
@@ -55,6 +54,11 @@ public class F_Gui extends javax.swing.JFrame {
 
         botoGenerar.setText("Generar Llistes");
         botoGenerar.setName("ButtonGenerarLl"); // NOI18N
+        botoGenerar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botoGenerarActionPerformed(evt);
+            }
+        });
 
         rutaFitxer.setEditable(false);
         rutaFitxer.addActionListener(new java.awt.event.ActionListener() {
@@ -138,10 +142,10 @@ public class F_Gui extends javax.swing.JFrame {
                     LlegirCvs cvs = new LlegirCvs(chooser.getSelectedFile().getAbsolutePath().toString());
                     String[] tMateries = cvs.mostrarMateries();
                     // inter.setRutaFitxer(chooser.getSelectedFile().getAbsolutePath().toString());
-                    for (int i = 0; i < tMateries.length;i++){
-                        llista.addElement(tMateries[i]);
+                    for (int i = 0; i < tMateries.length; i++) {
+                        llistatMateries.addElement(tMateries[i]);
                     }
-                    listatMateries.setModel(llista);
+                    listatMateries.setModel(llistatMateries);
 
                     rutaFitxer.setText(chooser.getSelectedFile().getAbsolutePath().toString()); //mostro el nom del arxiu.
                 }
@@ -154,15 +158,21 @@ public class F_Gui extends javax.swing.JFrame {
     }//GEN-LAST:event_rutaFitxerActionPerformed
 
     private void listatMateriesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listatMateriesValueChanged
-        String[] materiesSeleccionades = null;
-        
-        if (!listatMateries.isSelectionEmpty()){
-            materiesSeleccionades = (String[])listatMateries.getSelectedValuesList().toArray(); 
+
+        if (!listatMateries.isSelectionEmpty()) {
+            materiesSeleccionades = listatMateries.getSelectedValuesList();
         }
-        
-        
-        
     }//GEN-LAST:event_listatMateriesValueChanged
+
+    private void botoGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botoGenerarActionPerformed
+        String[] llistatMateriesSeleccionades = null;
+       // if (evt.getSource() == botoGenerar) {
+            //converteixo la list a String[]
+            llistatMateriesSeleccionades = Arrays.asList(materiesSeleccionades.toArray()).toArray(new String[materiesSeleccionades.size()]);
+            //es Crea el Xml.
+            CrearXmlJDom crearXml = new CrearXmlJDom(llistatMateriesSeleccionades);
+       // }
+    }//GEN-LAST:event_botoGenerarActionPerformed
 
     /**
      * @param args the command line arguments
