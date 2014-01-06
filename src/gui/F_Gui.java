@@ -14,6 +14,10 @@ public class F_Gui extends javax.swing.JFrame {
 
     private DefaultListModel llistatMateries = new DefaultListModel();
     private List materiesSeleccionades = null;
+    private JFileChooser chooser = null;
+    private File file;
+
+    private static LlegirCvs cvs = null;
 
     public F_Gui() {
         initComponents();
@@ -124,29 +128,27 @@ public class F_Gui extends javax.swing.JFrame {
 
     private void botoExaminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botoExaminarActionPerformed
         if (evt.getSource() == botoExaminar) {
-            File file;
+            String[] tMateries = null;
 
-            JFileChooser chooser = new JFileChooser();
+            chooser = new JFileChooser();
             FileNameExtensionFilter filter = new FileNameExtensionFilter("Fitxers Cvs", "csv");
             chooser.setFileFilter(filter);
 
-            int returnVal = chooser.showOpenDialog(this);
+            int returnVal = chooser.showOpenDialog(chooser);
 
             if (returnVal == JFileChooser.APPROVE_OPTION) { //si ha escollit ok,si,etc.
                 file = chooser.getSelectedFile();
-
                 if (!filter.accept(file)) {      //si no s'aplica el filtre, mostre una finestra de error(amb la x).
-                    JOptionPane.showMessageDialog(rootPane, "Fitxer incorrecte", "Error", returnVal);//showMessageDialog(new JFrame(), "No es un fitxer Csv");
+                    JOptionPane.showMessageDialog(null, "Fitxer incorrecte", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
 
-                    LlegirCvs cvs = new LlegirCvs(chooser.getSelectedFile().getAbsolutePath().toString());
-                    String[] tMateries = cvs.mostrarMateries();
-                    // inter.setRutaFitxer(chooser.getSelectedFile().getAbsolutePath().toString());
+                    cvs = new LlegirCvs(chooser.getSelectedFile().getAbsolutePath().toString());
+
+                    tMateries = cvs.mostrarMateries();
                     for (int i = 0; i < tMateries.length; i++) {
                         llistatMateries.addElement(tMateries[i]);
                     }
                     listatMateries.setModel(llistatMateries);
-
                     rutaFitxer.setText(chooser.getSelectedFile().getAbsolutePath().toString()); //mostro el nom del arxiu.
                 }
             }
@@ -161,17 +163,33 @@ public class F_Gui extends javax.swing.JFrame {
 
         if (!listatMateries.isSelectionEmpty()) {
             materiesSeleccionades = listatMateries.getSelectedValuesList();
+        } else {
+            //tira exception
         }
     }//GEN-LAST:event_listatMateriesValueChanged
 
     private void botoGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botoGenerarActionPerformed
         String[] llistatMateriesSeleccionades = null;
-       // if (evt.getSource() == botoGenerar) {
-            //converteixo la list a String[]
-            llistatMateriesSeleccionades = Arrays.asList(materiesSeleccionades.toArray()).toArray(new String[materiesSeleccionades.size()]);
-            //es Crea el Xml.
-            CrearXmlJDom crearXml = new CrearXmlJDom(llistatMateriesSeleccionades);
-       // }
+
+        //converteixo la list a String[]
+        llistatMateriesSeleccionades = Arrays.asList(materiesSeleccionades.toArray()).toArray(new String[materiesSeleccionades.size()]);
+        //es Crea el Xml.
+        try {
+            //a quin directori vol guardar el fitxer.
+            chooser = new JFileChooser();
+            int resposta = chooser.showSaveDialog(chooser);
+
+            if (resposta == JFileChooser.APPROVE_OPTION) {
+                file = chooser.getSelectedFile();
+
+                CrearXmlJDom CrearXML = new CrearXmlJDom(llistatMateriesSeleccionades, file.getAbsolutePath().toString());
+                JOptionPane.showMessageDialog(rootPane, "Xml Creat", "Informacio", 1);
+            }
+
+        } catch (Exception e) {
+
+        }
+        // }
     }//GEN-LAST:event_botoGenerarActionPerformed
 
     /**
@@ -218,4 +236,19 @@ public class F_Gui extends javax.swing.JFrame {
     private javax.swing.JList listatMateries;
     private javax.swing.JTextField rutaFitxer;
     // End of variables declaration//GEN-END:variables
+
+    /**
+     * @return the cvs
+     */
+    public static LlegirCvs getCvs() {
+        return cvs;
+    }
+
+    /**
+     * @param cvs the cvs to set
+     */
+    public void setCvs(LlegirCvs cvs) {
+        this.cvs = cvs;
+    }
+
 }

@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import static java.util.Collections.list;
 import java.util.Iterator;
 import java.util.Map;
@@ -22,40 +23,29 @@ public class LlegirCvs {
 
     private TreeMap<String, SortedSet> llistaMateriesAlumnes = new TreeMap<String, SortedSet>();
     private String csvFileToRead = "";
-    public static void main(String[] args) {
-        Intermediari in = new Intermediari();
-        LlegirCvs l = new LlegirCvs(in.getRutaFitxer());
-        
 
-        
+    public LlegirCvs() {
 
     }
 
-    public LlegirCvs(String ruta){
+    public LlegirCvs(String ruta) {
         this.csvFileToRead = ruta;
         llegirCvs();
     }
-    
-    
-    public void llegirCvs(){
-        //Intermediari inter = new Intermediari();
-        //String csvFileToRead = inter.getRutaFitxer();
-        
-        //String csvFileToRead = "C:\\Users\\MrSingh\\Documents\\NetBeansProjects\\LlegirCvs\\FitxerPerLlegir\\assig. matriculats.csv";
+
+    public void llegirCvs() {
+
         BufferedReader br = null;
         String linia = "";
         String[] tLinia = null;
 
         try {
-            
             br = new BufferedReader(new FileReader(csvFileToRead));
 
             while ((linia = br.readLine()) != null) {
                 if (!linia.trim().startsWith("#") && !linia.isEmpty()) {
                     tLinia = linia.split("\"[A-Za-z,]\""); // elimina el numero+, del començament de la linia; split busca un numero(10,100,1000) seguit de una ,
-
                     crearLlistatMateriesAlumnes(extreureLlistatAlumnes(tLinia[0]), extreureLlistatMateries(tLinia[2]));
-
                 }
             }
         } catch (IOException ex) {
@@ -73,22 +63,6 @@ public class LlegirCvs {
         }
     }
 
-    public String[] mostrarMateries(){
-       int z = 0;
-        String[] llistaMateries = null;
-        llistaMateries = new String[getLlistaMateriesAlumnes().size()];
-        
-        Set set = getLlistaMateriesAlumnes().entrySet();
-        Iterator i = set.iterator();
-        
-        while (i.hasNext()) {
-            Map.Entry me = (Map.Entry) i.next();
-            llistaMateries[z] = me.getKey().toString();
-            z++;
-        }
-        return llistaMateries;
-    }
-    
     /**
      * agafa la string que se li passa que te caracters, numeros i el nom i
      * retorna nomes el nom,sense numeros ni caracters.
@@ -132,26 +106,67 @@ public class LlegirCvs {
      * @param materia
      */
     public void crearLlistatMateriesAlumnes(Alumne alumne, String[] materia) { //em dona repetits per aixo hi ha el primer if.
-        
+
         SortedSet<String> llistatAlumnes;
 
         if (!alumne.equals("0") || !materia.equals("0")) {
             for (int i = 0; i < materia.length; i++) {
                 if (!llistaMateriesAlumnes.containsKey(materia[i])) { //no existeix la materia, la crea.
                     llistatAlumnes = new TreeSet<String>();
-                    llistatAlumnes.add(alumne.getCognom().concat(alumne.getNom()));
-                    getLlistaMateriesAlumnes().put(materia[i], llistatAlumnes);
-
+                    llistatAlumnes.add(alumne.getNom().concat(alumne.getCognom()));
+                    llistaMateriesAlumnes.put(materia[i], llistatAlumnes);
                 } else {
-                    getLlistaMateriesAlumnes().get(materia[i]).add(alumne.getCognom().concat(alumne.getNom())); //recupero els valors de la treemap i faig un add.
-                }
+                    llistaMateriesAlumnes.get(materia[i]).add(alumne.getNom().concat(alumne.getCognom())); //recupero els valors de la treemap i faig un add.
 
+                }
             }
         }
     }
 
+    //metode per la gui, mostra el llistat de les materies.
+    public String[] mostrarMateries() {
+        int z = 0;
+        String[] llistaMateries = null;
+        llistaMateries = new String[llistaMateriesAlumnes.size()];
+
+        Set set = llistaMateriesAlumnes.entrySet();
+        Iterator i = set.iterator();
+
+        while (i.hasNext()) {
+            Map.Entry me = (Map.Entry) i.next();
+            llistaMateries[z] = me.getKey().toString();
+
+            z++;
+        }
+        return llistaMateries;
+    }
+
+    //metode per treure el cognom,nom dels alumnes depenent de la materia passada per parametre.
+    public String[] llistarAlumnes(String materia) {
+        String[] llistatAlumnes = null;
+
+        boolean trobat = false;
+        Set set = llistaMateriesAlumnes.entrySet();
+        Iterator i = set.iterator();
+
+        while (!trobat && i.hasNext()) {
+            Map.Entry me = (Map.Entry) i.next();
+
+            if (me.getKey().equals(materia) && !trobat) {
+                trobat = true;
+                String prova;
+
+                prova = me.getValue().toString();
+                prova = prova.replace("[", " ");
+                prova = prova.replace("]", "");
+                llistatAlumnes = prova.split(",");
+            }
+        }
+        return llistatAlumnes;
+    }
+
     /**
-     * @return arraylist de llistaMateriesAlumnes
+     * @return the llistaMateriesAlumnes
      */
     public TreeMap<String, SortedSet> getLlistaMateriesAlumnes() {
         return llistaMateriesAlumnes;
@@ -162,6 +177,20 @@ public class LlegirCvs {
      */
     public void setLlistaMateriesAlumnes(TreeMap<String, SortedSet> llistaMateriesAlumnes) {
         this.llistaMateriesAlumnes = llistaMateriesAlumnes;
+    }
+
+    /**
+     * @return the csvFileToRead
+     */
+    public String getCsvFileToRead() {
+        return csvFileToRead;
+    }
+
+    /**
+     * @param csvFileToRead the csvFileToRead to set
+     */
+    public void setCsvFileToRead(String csvFileToRead) {
+        this.csvFileToRead = csvFileToRead;
     }
 
 }
