@@ -6,34 +6,31 @@
 package llegircvs;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import static java.util.Collections.list;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import javax.swing.JOptionPane;
 
-public class LlegirCvs {
+public class Csv {
 
     private TreeMap<String, SortedSet> llistaMateriesAlumnes = new TreeMap<String, SortedSet>();
     private String csvFileToRead = "";
 
-    public LlegirCvs() {
+    public Csv() {
 
     }
 
-    public LlegirCvs(String ruta) {
+    public Csv(String ruta) {
         this.csvFileToRead = ruta;
-        llegirCvs();
+        llegirCsv();
     }
 
-    public void llegirCvs() {
+    public void llegirCsv() {
 
         BufferedReader br = null;
         String linia = "";
@@ -41,25 +38,31 @@ public class LlegirCvs {
 
         try {
             br = new BufferedReader(new FileReader(csvFileToRead));
-
             while ((linia = br.readLine()) != null) {
                 if (!linia.trim().startsWith("#") && !linia.isEmpty()) {
                     tLinia = linia.split("\"[A-Za-z,]\""); // elimina el numero+, del començament de la linia; split busca un numero(10,100,1000) seguit de una ,
-                    crearLlistatMateriesAlumnes(extreureLlistatAlumnes(tLinia[0]), extreureLlistatMateries(tLinia[2]));
+                    try {
+                        crearLlistatMateriesAlumnes(extreureLlistatAlumnes(tLinia[0]), extreureLlistatMateries(tLinia[2]));
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(null, e, "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+
                 }
             }
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, e, "Error", JOptionPane.ERROR_MESSAGE);
+            //ex.printStackTrace();
 
         } finally { //tanca el fitxer
             if (br != null) {
                 try {
                     br.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(null, e, "Error", JOptionPane.ERROR_MESSAGE);
+                    //e.printStackTrace();
                 }
             }
-            System.out.println("\nFi del fitxer");
+            //System.out.println("\nFi del fitxer");
         }
     }
 
@@ -79,7 +82,6 @@ public class LlegirCvs {
         tAlumne = alumnes.split(",");
 
         alum = new Alumne(tAlumne[0], tAlumne[1]);
-
         return alum;
     }
 
@@ -94,7 +96,7 @@ public class LlegirCvs {
         String[] tMateries;
         materia = materia.replace("\"", "");
         tMateries = materia.split(",");
-
+        
         return tMateries;
     }
 

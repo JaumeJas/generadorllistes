@@ -7,7 +7,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.util.List;
-import llegircvs.LlegirCvs;
+import llegircvs.Csv;
 import llegircvs.CrearXmlJDom;
 
 public class F_Gui extends javax.swing.JFrame {
@@ -17,7 +17,7 @@ public class F_Gui extends javax.swing.JFrame {
     private JFileChooser chooser = null;
     private File file;
 
-    private static LlegirCvs cvs = null;
+    private static Csv cvs = null;
 
     public F_Gui() {
         initComponents();
@@ -142,7 +142,7 @@ public class F_Gui extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Fitxer incorrecte", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
 
-                    cvs = new LlegirCvs(chooser.getSelectedFile().getAbsolutePath().toString());
+                    cvs = new Csv(chooser.getSelectedFile().getAbsolutePath().toString());
 
                     tMateries = cvs.mostrarMateries();
                     for (int i = 0; i < tMateries.length; i++) {
@@ -181,13 +181,13 @@ public class F_Gui extends javax.swing.JFrame {
 
             if (resposta == JFileChooser.APPROVE_OPTION) {
                 file = chooser.getSelectedFile();
-
+           
                 CrearXmlJDom CrearXML = new CrearXmlJDom(llistatMateriesSeleccionades, file.getAbsolutePath().toString());
                 JOptionPane.showMessageDialog(rootPane, "Xml Creat", "Informacio", 1);
             }
 
         } catch (Exception e) {
-
+            JOptionPane.showMessageDialog(null, e, "Error", JOptionPane.ERROR_MESSAGE);
         }
         // }
     }//GEN-LAST:event_botoGenerarActionPerformed
@@ -240,14 +240,14 @@ public class F_Gui extends javax.swing.JFrame {
     /**
      * @return the cvs
      */
-    public static LlegirCvs getCvs() {
+    public static Csv getCvs() {
         return cvs;
     }
 
     /**
      * @param cvs the cvs to set
      */
-    public void setCvs(LlegirCvs cvs) {
+    public void setCvs(Csv cvs) {
         this.cvs = cvs;
     }
 

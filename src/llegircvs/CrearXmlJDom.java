@@ -3,6 +3,7 @@ package llegircvs;
 import gui.F_Gui;
 import java.io.FileWriter;
 import java.io.IOException;
+import javax.swing.JOptionPane;
 import org.jdom2.Attribute;
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -57,7 +58,7 @@ public class CrearXmlJDom {
 
             doc.getRootElement().addContent(nom);
 
-            //necessito accedir la variable LlegirCvs de F_gui i tirar el metode llistaAlumnes...no puc fer new aqui.
+            //necessito accedir la variable Csv de F_gui i tirar el metode llistaAlumnes...no puc fer new aqui.
             //que es comparteixi la instance sino no es la mateixa instancia(la de la gui i el new de aqui.)
             //tinc que fer getInstance i despres treballar sobre aixo.
             prova = F_Gui.getCvs().llistarAlumnes(llistatMateries[i]);
@@ -78,12 +79,12 @@ public class CrearXmlJDom {
         }
 
         XMLOutputter xmlOutput = new XMLOutputter();
-        xmlOutput.setFormat(Format.getPrettyFormat());
+        xmlOutput.setFormat(Format.getPrettyFormat().setEncoding("ISO-8859-1"));
         try {
             xmlOutput.output(doc, new FileWriter(rutaF));
         } catch (IOException e) { //error en escriure el fitxer
-
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e, "Error", JOptionPane.ERROR_MESSAGE);
+            //e.printStackTrace();
         }
     }
 
