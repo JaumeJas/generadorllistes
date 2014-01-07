@@ -37,6 +37,9 @@ public class CrearXmlJDom {
         if (!rutaF.contains(".")) {
             rutaF = rutaF + ".xml";
         }
+        if (!rutaF.contains(".xml")){
+          rutaF = rutaF + ".xml";
+        }
     }
 
     public void crearElementRoot() {

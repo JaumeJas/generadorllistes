@@ -127,32 +127,32 @@ public class F_Gui extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botoExaminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botoExaminarActionPerformed
-        if (evt.getSource() == botoExaminar) {
-            String[] tMateries = null;
+        //  if (evt.getSource() == botoExaminar) {
+        String[] tMateries = null;
 
-            chooser = new JFileChooser();
-            FileNameExtensionFilter filter = new FileNameExtensionFilter("Fitxers Cvs", "csv");
-            chooser.setFileFilter(filter);
+        chooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Fitxers Cvs", "csv");
+        chooser.setFileFilter(filter);
 
-            int returnVal = chooser.showOpenDialog(chooser);
+        int returnVal = chooser.showOpenDialog(chooser);
 
-            if (returnVal == JFileChooser.APPROVE_OPTION) { //si ha escollit ok,si,etc.
-                file = chooser.getSelectedFile();
-                if (!filter.accept(file)) {      //si no s'aplica el filtre, mostre una finestra de error(amb la x).
-                    JOptionPane.showMessageDialog(null, "Fitxer incorrecte", "Error", JOptionPane.ERROR_MESSAGE);
-                } else {
+        if (returnVal == JFileChooser.APPROVE_OPTION) { //si ha escollit ok,si,etc.
+            file = chooser.getSelectedFile();
+            if (!filter.accept(file)) {      //si no s'aplica el filtre, mostre una finestra de error(amb la x).
+                JOptionPane.showMessageDialog(null, "Fitxer incorrecte", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
 
-                    cvs = new Csv(chooser.getSelectedFile().getAbsolutePath().toString());
+                cvs = new Csv(chooser.getSelectedFile().getAbsolutePath().toString());
 
-                    tMateries = cvs.mostrarMateries();
-                    for (int i = 0; i < tMateries.length; i++) {
-                        llistatMateries.addElement(tMateries[i]);
-                    }
-                    listatMateries.setModel(llistatMateries);
-                    rutaFitxer.setText(chooser.getSelectedFile().getAbsolutePath().toString()); //mostro el nom del arxiu.
+                tMateries = cvs.mostrarMateries();
+                for (int i = 0; i < tMateries.length; i++) {
+                    llistatMateries.addElement(tMateries[i]);
                 }
+                listatMateries.setModel(llistatMateries);
+                rutaFitxer.setText(chooser.getSelectedFile().getAbsolutePath().toString()); //mostro el nom del arxiu.
             }
         }
+        // }
     }//GEN-LAST:event_botoExaminarActionPerformed
 
     private void rutaFitxerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rutaFitxerActionPerformed
@@ -170,23 +170,23 @@ public class F_Gui extends javax.swing.JFrame {
 
     private void botoGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botoGenerarActionPerformed
         String[] llistatMateriesSeleccionades = null;
-
-        //converteixo la list a String[]
-        llistatMateriesSeleccionades = Arrays.asList(materiesSeleccionades.toArray()).toArray(new String[materiesSeleccionades.size()]);
-        //es Crea el Xml.
         try {
+            //converteixo la list a String[]
+            llistatMateriesSeleccionades = Arrays.asList(materiesSeleccionades.toArray()).toArray(new String[materiesSeleccionades.size()]);
+        //es Crea el Xml.
+
             //a quin directori vol guardar el fitxer.
             chooser = new JFileChooser();
             int resposta = chooser.showSaveDialog(chooser);
 
             if (resposta == JFileChooser.APPROVE_OPTION) {
                 file = chooser.getSelectedFile();
-           
+
                 CrearXmlJDom CrearXML = new CrearXmlJDom(llistatMateriesSeleccionades, file.getAbsolutePath().toString());
                 JOptionPane.showMessageDialog(rootPane, "Xml Creat", "Informacio", 1);
             }
 
-        } catch (Exception e) {
+        } catch (NullPointerException e) {
             JOptionPane.showMessageDialog(null, e, "Error", JOptionPane.ERROR_MESSAGE);
         }
         // }
