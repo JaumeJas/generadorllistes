@@ -41,18 +41,12 @@ public class Csv {
             while ((linia = br.readLine()) != null) {
                 if (!linia.trim().startsWith("#") && !linia.isEmpty()) {
                     tLinia = linia.split("\"[A-Za-z,]\""); // elimina el numero+, del començament de la linia; split busca un numero(10,100,1000) seguit de una ,
-                    try {
-                        crearLlistatMateriesAlumnes(extreureLlistatAlumnes(tLinia[0]), extreureLlistatMateries(tLinia[2]));
-                    } catch (Exception e) {
-                        JOptionPane.showMessageDialog(null, e, "Error", JOptionPane.ERROR_MESSAGE);
-                    }
-
+                    crearLlistatMateriesAlumnes(extreureLlistatAlumnes(tLinia[0]), extreureLlistatMateries(tLinia[2]));
                 }
             }
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, e, "Error", JOptionPane.ERROR_MESSAGE);
             //ex.printStackTrace();
-
         } finally { //tanca el fitxer
             if (br != null) {
                 try {
@@ -62,7 +56,6 @@ public class Csv {
                     //e.printStackTrace();
                 }
             }
-            //System.out.println("\nFi del fitxer");
         }
     }
 
@@ -80,8 +73,9 @@ public class Csv {
 
         alumnes = alumne.replaceAll("[0-9]+,\"", "");
         tAlumne = alumnes.split(",");
-
+        
         alum = new Alumne(tAlumne[0], tAlumne[1]);
+        
         return alum;
     }
 
@@ -108,10 +102,9 @@ public class Csv {
      * @param materia
      */
     public void crearLlistatMateriesAlumnes(Alumne alumne, String[] materia) { //em dona repetits per aixo hi ha el primer if.
-
         SortedSet<String> llistatAlumnes;
 
-        if (!alumne.equals("0") || !materia.equals("0")) {
+        try {
             for (int i = 0; i < materia.length; i++) {
                 if (!llistaMateriesAlumnes.containsKey(materia[i])) { //no existeix la materia, la crea.
                     llistatAlumnes = new TreeSet<String>();
@@ -119,9 +112,10 @@ public class Csv {
                     llistaMateriesAlumnes.put(materia[i], llistatAlumnes);
                 } else {
                     llistaMateriesAlumnes.get(materia[i]).add(alumne.getNom().concat(alumne.getCognom())); //recupero els valors de la treemap i faig un add.
-
                 }
             }
+        }catch(NullPointerException e) {
+             JOptionPane.showMessageDialog(null, e, "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
