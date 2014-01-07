@@ -31,6 +31,7 @@ public class CrearXmlJDom {
         this.rutaF = file;
         comprobarRutaFitxer();
         crearElementRoot();
+        
     }
 
     public void comprobarRutaFitxer() {
@@ -52,8 +53,6 @@ public class CrearXmlJDom {
 
     public void crearElement(String[] llistatMateries, Document doc) {
 
-        String[] prova;
-
         for (int i = 0; i < llistatMateries.length; i++) {
 
             Element nom = new Element("llista");
@@ -64,8 +63,8 @@ public class CrearXmlJDom {
             //necessito accedir la variable Csv de F_gui i tirar el metode llistaAlumnes...no puc fer new aqui.
             //que es comparteixi la instance sino no es la mateixa instancia(la de la gui i el new de aqui.)
             //tinc que fer getInstance i despres treballar sobre aixo.
-            prova = F_Gui.getCvs().llistarAlumnes(llistatMateries[i]);
-            CrearElementAlumne(nom, doc, i, prova);
+            
+            CrearElementAlumne(nom, doc, i, F_Gui.getCsv().llistarAlumnes(llistatMateries[i]));
         }
     }
 
@@ -85,9 +84,9 @@ public class CrearXmlJDom {
         xmlOutput.setFormat(Format.getPrettyFormat().setEncoding("ISO-8859-1"));
         try {
             xmlOutput.output(doc, new FileWriter(rutaF));
+            
         } catch (IOException e) { //error en escriure el fitxer
             JOptionPane.showMessageDialog(null, e, "Error", JOptionPane.ERROR_MESSAGE);
-            //e.printStackTrace();
         }
     }
 

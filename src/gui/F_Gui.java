@@ -1,6 +1,7 @@
 package gui;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
@@ -138,6 +139,7 @@ public class F_Gui extends javax.swing.JFrame {
 
         if (returnVal == JFileChooser.APPROVE_OPTION) { //si ha escollit ok,si,etc.
             file = chooser.getSelectedFile();
+
             if (!filter.accept(file)) {      //si no s'aplica el filtre, mostre una finestra de error(amb la x).
                 JOptionPane.showMessageDialog(null, "Fitxer incorrecte", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
@@ -163,9 +165,10 @@ public class F_Gui extends javax.swing.JFrame {
 
         if (!listatMateries.isSelectionEmpty()) {
             materiesSeleccionades = listatMateries.getSelectedValuesList();
-        } else {
-            //tira exception
+        }else{
+            materiesSeleccionades = null;
         }
+        
     }//GEN-LAST:event_listatMateriesValueChanged
 
     private void botoGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botoGenerarActionPerformed
@@ -183,7 +186,8 @@ public class F_Gui extends javax.swing.JFrame {
                 file = chooser.getSelectedFile();
 
                 CrearXmlJDom CrearXML = new CrearXmlJDom(llistatMateriesSeleccionades, file.getAbsolutePath().toString());
-                JOptionPane.showMessageDialog(rootPane, "Xml Creat", "Informacio", 1);
+                JOptionPane.showMessageDialog(null, "Xml Creat", "Informacio", 1);
+                
             }
 
         } catch (NullPointerException e) {
@@ -240,7 +244,7 @@ public class F_Gui extends javax.swing.JFrame {
     /**
      * @return the cvs
      */
-    public static Csv getCvs() {
+    public static Csv getCsv() {
         return cvs;
     }
 
