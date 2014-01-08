@@ -101,6 +101,8 @@ public class Csv {
      * @param alumne
      * @param materia
      */
+
+	/* HOLA PROVES */
     public void crearLlistatMateriesAlumnes(Alumne alumne, String[] materia) { //em dona repetits per aixo hi ha el primer if.
         SortedSet<String> llistatAlumnes;
 
